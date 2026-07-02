@@ -14,7 +14,10 @@ StellarShield is a hackathon-ready demo for private payments on Stellar. The app
 
 - [app/page.tsx](app/page.tsx) – main landing experience
 - [app/components/stellar-shield-app.tsx](app/components/stellar-shield-app.tsx) – demo dApp UI and proof flow
-- [app/api/verify/route.ts](app/api/verify/route.ts) – demo verification endpoint
+- [app/api/verify/route.ts](app/api/verify/route.ts#L1-L200) – verification endpoint (demo + Soroban RPC forwarding)
+	- Accepts JSON with `proofHash` and `noteHash`.
+	- If the body contains `signedTxXdr` the route forwards it to the Soroban RPC using the JSON-RPC `send_transaction` method (useful for submitting a client-signed invocation to the on-chain verifier contract).
+	- Configure the RPC endpoint with `SOROBAN_RPC_URL` (see `.env.example`).
 - [contracts/src/lib.rs](contracts/src/lib.rs) – Soroban contract
 - [circuits/privacy.circom](circuits/privacy.circom) – Circom circuit
 - [public/artifacts](public/artifacts) – wasm, zkey, and verification key files
@@ -27,6 +30,18 @@ npm run dev
 ```
 
 Open http://localhost:3000 to explore the product.
+
+### Server verify endpoint
+
+1. Copy `.env.example` to `.env.local` and optionally set `SOROBAN_RPC_URL`.
+2. Start the app: `npm run dev`.
+3. Use the included test script to try the demo and RPC flows:
+
+```bash
+bash scripts/test_verify.sh
+```
+
+To submit a real Soroban invocation, the frontend must produce a client-signed transaction XDR (from Freighter, Albedo, or a similar wallet) and POST it to `/api/verify` as `signedTxXdr`.
 
 ## Build and test
 
