@@ -1,0 +1,8 @@
+{
+  "name": "stellar-shield-circuits",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "mkdir -p artifacts && circom privacy.circom --r1cs --wasm --sym -o artifacts && node scripts/compile.mjs"
+  }
+}

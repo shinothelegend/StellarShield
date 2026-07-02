@@ -1,0 +1,14 @@
+[package]
+name = "stellar_shield_contract"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+soroban-sdk = "27.0.0-rc.1"
+
+[profile.release]
+overflow-checks = true
